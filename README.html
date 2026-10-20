@@ -1,1 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>商业地产资产管理：从资本回报到价值创造</title>
+<style>
+:root {
+  --blue: #0077aa;
+  --ink: #18313d;
+  --muted: #607680;
+  --line: #d6e5eb;
+  --pale: #eef7fa;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #f2f7f9;
+  color: var(--ink);
+  font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+main {
+  max-width: 1120px;
+  margin: auto;
+  padding: 30px 18px;
+}
+header { text-align: center; margin-bottom: 24px; }
+.kicker {
+  color: var(--blue);
+  font-size: 12px;
+  letter-spacing: .15em;
+  font-weight: bold;
+}
+h1 {
+  font-size: clamp(25px, 4vw, 38px);
+  margin: 12px 0;
+}
+.intro {
+  max-width: 760px;
+  margin: auto;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.layout {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 18px;
+}
+.panel {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px #16485b0c;
+}
+.diagram-panel { padding: 18px; }
+.hint {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+.hint span:last-child {
+  color: var(--muted);
+  font-size: 12px;
+}
+svg { width: 100%; height: auto; display: block; }
+.path {
+  fill: none;
+  stroke: #a8cbd8;
+  stroke-width: 3;
+  stroke-dasharray: 6 7;
+}
+.node { cursor: pointer; outline: none; }
+.node rect {
+  fill: white;
+  stroke: #b8d4df;
+  stroke-width: 1.5;
+  transition: .2s;
+}
+.node.active rect {
+  fill: var(--blue);
+  stroke: var(--blue);
+}
+.node:hover rect,
+.node:focus rect {
+  stroke: var(--blue);
+  stroke-width: 2.5;
+}
+.node text { font-family: inherit; }
+.node .n {
+  fill: var(--blue);
+  font-size: 12px;
+  font-weight: bold;
+}
+.node .label {
+  fill: var(--ink);
+  font-size: 15px;
+  font-weight: bold;
+}
+.node .sub {
+  fill: var(--muted);
+  font-size: 10px;
+}
+.node.active .n,
+.node.active .label,
+.node.active .sub { fill: white; }
+.core {
+  fill: #f0f8fb;
+  stroke: #c6e1e9;
+  stroke-width: 1.5;
+}
+.ct {
+  fill: #123d50;
+  font-size: 17px;
+  font-weight: bold;
+  text-anchor: middle;
+}
+.cs {
+  fill: #607680;
+  font-size: 11px;
+  text-anchor: middle;
+}
+.detail {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  min-height: 540px;
+}
+.step {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: .08em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.num {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--pale);
+  font-size: 13px;
+}
+h2 { font-size: 25px; margin: 16px 0 9px; }
+.lead {
+  color: #3e5965;
+  line-height: 1.85;
+  font-size: 15px;
+  margin: 0 0 18px;
+}
+.section {
+  border-top: 1px solid #e4edf1;
+  padding-top: 15px;
+  margin-top: 2px;
+}
+.section h3 {
+  font-size: 13px;
+  color: #123d50;
+  margin: 0 0 8px;
+}
+.section p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 0;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 11px;
+}
+.tag {
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 99px;
+  background: #f0f6f8;
+  border: 1px solid #deebef;
+  color: #315866;
+}
+.tip {
+  margin-top: auto;
+  background: #f8fbfc;
+  border-left: 3px solid #d89b36;
+  padding: 13px 14px;
+  border-radius: 0 10px 10px 0;
+}
+.tip b {
+  display: block;
+  color: #815b1c;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.tip p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #526b75;
+  margin: 0;
+}
+.actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 18px;
+}
+.actions button {
+  border: 1px solid #c7dce4;
+  border-radius: 10px;
+  background: white;
+  color: #123d50;
+  padding: 10px 13px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.actions button:hover { background: #f2f9fc; }
+.actions .primary {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+.actions .primary:hover { background: #075778; }
+footer {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #71848c;
+  margin: 18px 3px;
+}
+@media (max-width: 780px) {
+  .layout { grid-template-columns: 1fr; }
+  .detail { min-height: 500px; }
+  .diagram-panel { padding: 12px; }
+}
+@media (max-width: 460px) {
+  main { padding: 22px 12px; }
+  .hint { display: block; }
+  .hint span:last-child {
+    display: block;
+    margin-top: 5px;
+  }
+  .node .sub { display: none; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">COMMERCIAL REAL ESTATE · ASSET MANAGEMENT</div>
+  <h1>商业地产资产管理：从资本回报到价值创造</h1>
+  <p class="intro">
+    资产管理不止于设定财务目标，而是将资本回报要求转化为资产战略、经营决策与一线行动，并以绩效数据持续验证价值是否真正实现。
+  </p>
+</header>
+
+<section class="layout">
+<div class="panel diagram-panel">
+  <div class="hint">
+    <strong>从资本目标到价值实现</strong>
+    <span>点击任一环节，探索资产管理逻辑</span>
+  </div>
+
+  <svg viewBox="0 0 620 520" role="img"
+       aria-label="从资本回报到价值创造的交互流程图">
+    <defs>
+      <marker id="arrow" markerWidth="9" markerHeight="9"
+              refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="#9bbfce"/>
+      </marker>
+    </defs>
+
+    <path class="path" marker-end="url(#arrow)"
+          d="M310 93 C400 93 464 126 488 180"/>
+    <path class="path" marker-end="url(#arrow)"
+          d="M492 218 C512 282 475 344 425 375"/>
+    <path class="path" marker-end="url(#arrow)"
+          d="M390 407 C330 447 258 448 218 413"/>
+    <path class="path" marker-end="url(#arrow)"
+          d="M177 386 C110 348 91 289 112 225"/>
+    <path class="path" marker-end="url(#arrow)"
+          d="M128 187 C157 125 218 92 280 92"/>
+
+    <circle class="core" cx="310" cy="253" r="83"/>
+    <text class="ct" x="310" y="242">价值创造</text>
+    <text class="ct" x="310" y="266">持续验证</text>
+    <text class="cs" x="310" y="290">经营表现 · 资产韧性 · 资本回报</text>
+
+    <g class="node active" data-i="0" tabindex="0" role="button">
+      <rect x="215" y="25" width="190" height="70" rx="15"/>
+      <text class="n" x="232" y="47">01</text>
+      <text class="label" x="310" y="57" text-anchor="middle">资本回报</text>
+      <text class="sub" x="310" y="77" text-anchor="middle">明确投资成果与约束</text>
+    </g>
+
+    <g class="node" data-i="1" tabindex="0" role="button">
+      <rect x="395" y="115" width="195" height="70" rx="15"/>
+      <text class="n" x="412" y="137">02</text>
+      <text class="label" x="492" y="145" text-anchor="middle">资产战略</text>
+      <text class="sub" x="492" y="165" text-anchor="middle">选择价值创造路径</text>
+    </g>
+
+    <g class="node" data-i="2" tabindex="0" role="button">
+      <rect x="395" y="335" width="195" height="70" rx="15"/>
+      <text class="n" x="412" y="357">03</text>
+      <text class="label" x="492" y="365" text-anchor="middle">经营决策</text>
+      <text class="sub" x="492" y="385" text-anchor="middle">预算、计划与资源配置</text>
+    </g>
+
+    <g class="node" data-i="3" tabindex="0" role="button">
+      <rect x="215" y="415" width="190" height="70" rx="15"/>
+      <text class="n" x="232" y="437">04</text>
+      <text class="label" x="310" y="447" text-anchor="middle">运营行动</text>
+      <text class="sub" x="310" y="467" text-anchor="middle">团队协同与现场执行</text>
+    </g>
+
+    <g class="node" data-i="4" tabindex="0" role="button">
+      <rect x="30" y="335" width="195" height="70" rx="15"/>
+      <text class="n" x="47" y="357">05</text>
+      <text class="label" x="127" y="365" text-anchor="middle">绩效评估</text>
+      <text class="sub" x="127" y="385" text-anchor="middle">用数据判断结果与偏差</text>
+    </g>
+
+    <g class="node" data-i="5" tabindex="0" role="button">
+      <rect x="30" y="115" width="195" height="70" rx="15"/>
+      <text class="n" x="47" y="137">06</text>
+      <text class="label" x="127" y="145" text-anchor="middle">复盘与优化</text>
+      <text class="sub" x="127" y="165" text-anchor="middle">纠偏并更新决策</text>
+    </g>
+  </svg>
+</div>
+
+<aside class="panel detail" aria-live="polite">
+  <div class="step">
+    <span class="num" id="num">01</span>
+    <span>价值创造的关键逻辑</span>
+  </div>
+
+  <h2 id="title">资本回报</h2>
+  <p class="lead" id="lead">
+    从投资者视角定义资产成功的标准：最终要实现什么回报、承担哪些风险，以及在什么周期内实现。
+  </p>
+
+  <div class="section">
+    <h3>管理重点</h3>
+    <p id="focus">
+      将资本回报要求转化为资产经营的明确方向，兼顾收益、现金流、风险、持有周期与资本投入。
+    </p>
+    <div class="tags" id="tags">
+      <span class="tag">NOI</span>
+      <span class="tag">现金流</span>
+      <span class="tag">投资回报</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>需要回答的核心问题</h3>
+    <p id="question">
+      资产的回报目标是什么？当前经营表现与目标之间存在多大差距？
+    </p>
+  </div>
+
+  <div class="tip">
+    <b>实践提示</b>
+    <p id="tip">
+      财务目标不是报表上的数字；需要进一步识别哪些经营变量真正影响这些结果。
+    </p>
+  </div>
+
+  <div class="actions">
+    <button id="prev">← 上一环节</button>
+    <button class="primary" id="next">下一环节 →</button>
+  </div>
+</aside>
+</section>
+
+<footer>
+  交互说明：本图用于解释商业地产资产管理的基本逻辑。实际应用时，应根据资产类型、投资策略、市场条件与业主要求确定具体指标和管理动作。
+</footer>
+</main>
+
+<script>
+const stages = [
+  {
+    title: "资本回报",
+    lead: "从投资者视角定义资产成功的标准：最终要实现什么回报、承担哪些风险，以及在什么周期内实现。",
+    focus: "将资本回报要求转化为资产经营的明确方向，兼顾收益、现金流、风险、持有周期与资本投入。",
+    tags: ["NOI", "现金流", "投资回报", "资产估值"],
+    question: "资产的回报目标是什么？当前经营表现与目标之间存在多大差距？",
+    tip: "财务目标不是报表上的数字；需要进一步识别哪些经营变量真正影响这些结果。"
+  },
+  {
+    title: "资产战略",
+    lead: "结合资产定位、市场趋势和持有策略，选择适合该资产的价值创造方式，而不是简单复制其他项目的做法。",
+    focus: "明确租赁定位、目标客群、改造方向、运营能力建设与风险策略，并对行动优先级作出取舍。",
+    tags: ["市场定位", "租赁策略", "资产改造", "风险管理"],
+    question: "价值增长主要来自租金与出租率改善、运营效率、资本性改造，还是风险降低？",
+    tip: "战略需要明确取舍：资源有限时，先做哪些事、暂缓哪些事，以及为什么。"
+  },
+  {
+    title: "经营决策",
+    lead: "把资产战略转化为年度经营计划、预算和资源配置，让目标能够被执行、跟踪和问责。",
+    focus: "联动收入计划、运营费用、租赁行动、资本开支、租户体验和工程管理，建立可执行的目标与责任体系。",
+    tags: ["年度预算", "经营计划", "CAPEX", "责任分工"],
+    question: "每项经营目标由谁负责？需要哪些资源？预期何时产生可验证的结果？",
+    tip: "预算不应只是历史成本的延续，而应说明每笔投入如何支持资产目标。"
+  },
+  {
+    title: "运营行动",
+    lead: "将经营决策落实到日常工作，通过跨团队协作，让运营活动持续支撑资产经营表现。",
+    focus: "对齐资产管理、租赁、物业运营、财务和供应商的工作目标、服务标准、行动节奏与协同机制。",
+    tags: ["租户体验", "服务质量", "能源效率", "供应商绩效"],
+    question: "一线工作是否真正支持经营目标？当部门指标冲突时，团队依据什么原则协同？",
+    tip: "不能只看各部门是否完成任务，还要检验这些任务是否带来预期经营效果。"
+  },
+  {
+    title: "绩效评估",
+    lead: "通过可靠的数据判断经营计划是否有效，及时识别偏差、趋势和潜在风险。",
+    focus: "统一指标定义与数据口径，定期比较目标、预算、实际表现和市场基准，分析差异背后的原因。",
+    tags: ["实际与预算", "NOI趋势", "出租率", "租户留存"],
+    question: "偏差来自市场变化、战略判断、执行质量还是数据问题？对回报的影响有多大？",
+    tip: "指标的价值不在于展示结果，而在于帮助管理者解释结果并决定下一步行动。"
+  },
+  {
+    title: "复盘与优化",
+    lead: "将绩效信息转化为管理决策：纠正偏差、调整资源、验证措施效果，必要时重新审视资产战略。",
+    focus: "识别问题根因，明确纠偏动作、负责人、完成时限和验证指标，并把经验带入下一轮经营计划。",
+    tags: ["根因分析", "纠偏行动", "资源调整", "持续改进"],
+    question: "哪些措施应继续、停止或调整？怎样验证调整后确实改善了资产表现？",
+    tip: "闭环不是完成一次复盘，而是让复盘结果真正改变下一轮决策和行动。"
+  }
+];
+
+let current = 0;
+const $ = id => document.getElementById(id);
+
+function render(index) {
+  current = (index + stages.length) % stages.length;
+  const stage = stages[current];
+
+  $("num").textContent = String(current + 1).padStart(2, "0");
+  $("title").textContent = stage.title;
+  $("lead").textContent = stage.lead;
+  $("focus").textContent = stage.focus;
+  $("question").textContent = stage.question;
+  $("tip").textContent = stage.tip;
+
+  $("tags").replaceChildren(
+    ...stage.tags.map(text => {
+      const span = document.createElement("span");
+      span.className = "tag";
+      span.textContent = text;
+      return span;
+    })
+  );
+
+  document.querySelectorAll(".node").forEach(node => {
+    const active = Number(node.dataset.i) === current;
+    node.classList.toggle("active", active);
+    node.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+}
+
+document.querySelectorAll(".node").forEach(node => {
+  node.addEventListener("click", () => {
+    render(Number(node.dataset.i));
+  });
+
+  node.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      render(Number(node.dataset.i));
+    }
+  });
+});
+
+$("prev").addEventListener("click", () => render(current - 1));
+$("next").addEventListener("click", () => render(current + 1));
+
+document.addEventListener("keydown", event => {
+  if (event.key === "ArrowLeft") render(current - 1);
+  if (event.key === "ArrowRight") render(current + 1);
+});
+
+render(0);
+</script>
+</body>
+</html>
 # asset-Management
