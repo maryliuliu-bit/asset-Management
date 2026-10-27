@@ -1,492 +1,155 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>商业地产资产管理：从资本回报到价值创造</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOMA商业地产资产管理交互模型｜从资本回报到资产价值创造</title>
 <style>
-:root {
-  --blue: #0077aa;
-  --ink: #18313d;
-  --muted: #607680;
-  --line: #d6e5eb;
-  --pale: #eef7fa;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: #f2f7f9;
-  color: var(--ink);
-  font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-}
-main {
-  max-width: 1120px;
-  margin: auto;
-  padding: 30px 18px;
-}
-header { text-align: center; margin-bottom: 24px; }
-.kicker {
-  color: var(--blue);
-  font-size: 12px;
-  letter-spacing: .15em;
-  font-weight: bold;
-}
-h1 {
-  font-size: clamp(25px, 4vw, 38px);
-  margin: 12px 0;
-}
-.intro {
-  max-width: 760px;
-  margin: auto;
-  line-height: 1.8;
-  color: var(--muted);
-}
-.layout {
-  display: grid;
-  grid-template-columns: 1.1fr .9fr;
-  gap: 18px;
-}
-.panel {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  box-shadow: 0 10px 28px #16485b0c;
-}
-.diagram-panel { padding: 18px; }
-.hint {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  font-size: 13px;
-  margin: 0 0 8px;
-}
-.hint span:last-child {
-  color: var(--muted);
-  font-size: 12px;
-}
-svg { width: 100%; height: auto; display: block; }
-.path {
-  fill: none;
-  stroke: #a8cbd8;
-  stroke-width: 3;
-  stroke-dasharray: 6 7;
-}
-.node { cursor: pointer; outline: none; }
-.node rect {
-  fill: white;
-  stroke: #b8d4df;
-  stroke-width: 1.5;
-  transition: .2s;
-}
-.node.active rect {
-  fill: var(--blue);
-  stroke: var(--blue);
-}
-.node:hover rect,
-.node:focus rect {
-  stroke: var(--blue);
-  stroke-width: 2.5;
-}
-.node text { font-family: inherit; }
-.node .n {
-  fill: var(--blue);
-  font-size: 12px;
-  font-weight: bold;
-}
-.node .label {
-  fill: var(--ink);
-  font-size: 15px;
-  font-weight: bold;
-}
-.node .sub {
-  fill: var(--muted);
-  font-size: 10px;
-}
-.node.active .n,
-.node.active .label,
-.node.active .sub { fill: white; }
-.core {
-  fill: #f0f8fb;
-  stroke: #c6e1e9;
-  stroke-width: 1.5;
-}
-.ct {
-  fill: #123d50;
-  font-size: 17px;
-  font-weight: bold;
-  text-anchor: middle;
-}
-.cs {
-  fill: #607680;
-  font-size: 11px;
-  text-anchor: middle;
-}
-.detail {
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  min-height: 540px;
-}
-.step {
-  color: var(--blue);
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: .08em;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-.num {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--pale);
-  font-size: 13px;
-}
-h2 { font-size: 25px; margin: 16px 0 9px; }
-.lead {
-  color: #3e5965;
-  line-height: 1.85;
-  font-size: 15px;
-  margin: 0 0 18px;
-}
-.section {
-  border-top: 1px solid #e4edf1;
-  padding-top: 15px;
-  margin-top: 2px;
-}
-.section h3 {
-  font-size: 13px;
-  color: #123d50;
-  margin: 0 0 8px;
-}
-.section p {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.8;
-  margin: 0;
-}
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 11px;
-}
-.tag {
-  font-size: 12px;
-  padding: 7px 10px;
-  border-radius: 99px;
-  background: #f0f6f8;
-  border: 1px solid #deebef;
-  color: #315866;
-}
-.tip {
-  margin-top: auto;
-  background: #f8fbfc;
-  border-left: 3px solid #d89b36;
-  padding: 13px 14px;
-  border-radius: 0 10px 10px 0;
-}
-.tip b {
-  display: block;
-  color: #815b1c;
-  font-size: 12px;
-  margin-bottom: 5px;
-}
-.tip p {
-  font-size: 13px;
-  line-height: 1.75;
-  color: #526b75;
-  margin: 0;
-}
-.actions {
-  display: flex;
-  gap: 9px;
-  margin-top: 18px;
-}
-.actions button {
-  border: 1px solid #c7dce4;
-  border-radius: 10px;
-  background: white;
-  color: #123d50;
-  padding: 10px 13px;
-  font: inherit;
-  font-size: 13px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.actions button:hover { background: #f2f9fc; }
-.actions .primary {
-  background: var(--blue);
-  color: white;
-  border-color: var(--blue);
-}
-.actions .primary:hover { background: #075778; }
-footer {
-  font-size: 12px;
-  line-height: 1.8;
-  color: #71848c;
-  margin: 18px 3px;
-}
-@media (max-width: 780px) {
-  .layout { grid-template-columns: 1fr; }
-  .detail { min-height: 500px; }
-  .diagram-panel { padding: 12px; }
-}
-@media (max-width: 460px) {
-  main { padding: 22px 12px; }
-  .hint { display: block; }
-  .hint span:last-child {
-    display: block;
-    margin-top: 5px;
-  }
-  .node .sub { display: none; }
-}
+:root{--blue:#0077aa;--navy:#153d65;--ink:#183247;--muted:#617486;--line:#d8e2e9;--bg:#f3f7fa;--green:#26775c;--orange:#b66a2c;--purple:#7353a3}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;color:var(--ink);line-height:1.55}
+.wrap{max-width:1180px;margin:auto;padding:26px 20px 50px}.hero{background:linear-gradient(125deg,#123454,#0077aa);color:white;border-radius:20px;padding:30px 32px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:290px;height:290px;border:1px solid #ffffff33;border-radius:50%;right:-60px;top:-100px;box-shadow:0 0 0 30px #ffffff0d,0 0 0 60px #ffffff08}
+.eyebrow{font-size:12px;letter-spacing:2px;opacity:.8;text-transform:uppercase}.hero h1{font-size:clamp(25px,4vw,38px);margin:8px 0}.hero p{max-width:780px;margin:8px 0 0;color:#e0eef7}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.pill{border:1px solid #ffffff55;border-radius:99px;padding:6px 11px;font-size:12px}
+.section{margin-top:24px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:12px}.section h2{font-size:21px;margin:0}.sub{font-size:13px;color:var(--muted);margin-top:4px}
+.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 5px 18px #18324708}
+.goal{background:#e9f2f8;border:1px solid #c5d9e7;border-radius:12px;padding:15px;text-align:center}.goal strong{display:block;font-size:18px;color:var(--navy)}.goal span{font-size:13px;color:#49677d}
+.flowline{text-align:center;color:#8ba2b2;font-size:23px;line-height:1.3}
+.phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.phase{cursor:pointer;border:2px solid transparent;border-radius:13px;padding:17px 15px;text-align:left;transition:.18s;min-height:130px;color:var(--ink)}
+.phase:hover{transform:translateY(-2px)}.phase.active{border-color:var(--blue);box-shadow:0 0 0 3px #0077aa14}
+.phase .num{font-size:11px;letter-spacing:1px;opacity:.7}.phase h3{margin:5px 0;font-size:18px}.phase p{font-size:12px;margin:0;line-height:1.5}
+.acq{background:#e8f0f8}.hold{background:#e5f2ed}.exit{background:#fbefe4}
+.detail-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}
+.detail-title{display:flex;gap:10px;align-items:center;margin-bottom:12px}.dot{width:11px;height:11px;border-radius:50%;background:var(--blue)}.detail-title h3{margin:0;font-size:19px}.goaltext{color:var(--muted);font-size:14px;margin:0 0 15px}
+ol.tasks{padding-left:23px;margin:0}ol.tasks li{padding:0 0 10px 4px}ol.tasks li::marker{color:var(--blue);font-weight:700}
+ul.clean{list-style:none;margin:0;padding:0}ul.clean li{padding:9px 0;border-bottom:1px solid #edf1f4;font-size:14px;display:flex;gap:9px}ul.clean li:last-child{border-bottom:0}.check{color:var(--green);font-weight:bold}
+.metrics{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.metric{font-size:12px;padding:7px 10px;border-radius:8px;background:#eef4f7;color:#31566e}
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.role{cursor:pointer;text-align:left;background:white;border:1px solid var(--line);border-radius:13px;padding:15px;color:var(--ink)}.role.active{border:2px solid var(--blue);background:#f2f9fc;padding:14px}.role h3{font-size:16px;margin:0 0 6px}.role p{font-size:12px;color:var(--muted);margin:0}.role-detail{margin-top:12px;background:#f5f8fa;border-radius:12px;padding:15px}.role-detail h3{margin:0 0 8px;font-size:17px}.role-detail p{margin:5px 0;font-size:14px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.kpi{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff}.kpi strong{display:block;font-size:14px}.kpi span{font-size:12px;color:var(--muted)}
+.loop{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:stretch}.loop-item{background:white;border:1px solid var(--line);border-radius:10px;padding:12px 9px;text-align:center;font-size:13px;font-weight:600;position:relative}.loop-item:not(:last-child):after{content:"›";position:absolute;right:-9px;top:30%;font-size:24px;color:var(--blue);z-index:1}
+.knowledge{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.knowledge button{background:white;border:1px solid var(--line);border-radius:10px;padding:11px 9px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;font-size:12px}.knowledge button:hover{border-color:var(--blue);background:#f3f9fc}.knowledge b{display:block;color:var(--blue);font-size:11px;margin-bottom:3px}
+.footer{font-size:12px;color:var(--muted);margin-top:24px;text-align:center}
+button:focus-visible{outline:3px solid #72c4e7;outline-offset:2px}
+@media(max-width:760px){.wrap{padding:14px 12px 30px}.hero{padding:24px 20px}.phase-grid,.detail-grid,.role-grid{grid-template-columns:1fr}.phase{min-height:unset}.kpi-grid{grid-template-columns:repeat(2,1fr)}.loop{grid-template-columns:1fr}.loop-item:not(:last-child):after{content:"↓";right:50%;top:auto;bottom:-20px}.knowledge{grid-template-columns:repeat(2,1fr)}.section-head{align-items:start;flex-direction:column}}
 </style>
 </head>
 <body>
-<main>
-<header>
-  <div class="kicker">COMMERCIAL REAL ESTATE · ASSET MANAGEMENT</div>
-  <h1>商业地产资产管理：从资本回报到价值创造</h1>
-  <p class="intro">
-    资产管理不止于设定财务目标，而是将资本回报要求转化为资产战略、经营决策与一线行动，并以绩效数据持续验证价值是否真正实现。
-  </p>
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">BOMA · Commercial Real Estate</div>
+  <h1>从资本回报到资产价值创造</h1>
+  <p>商业地产资产管理交互模型｜以资产生命周期为主线，连接投资决策、租赁与物业运营、绩效监测及退出策略。</p>
+  <div class="pillrow"><span class="pill">资产生命周期</span><span class="pill">资管 · 租赁 · 物管协同</span><span class="pill">绩效反馈闭环</span><span class="pill">BOMA专业知识体系</span></div>
 </header>
 
-<section class="layout">
-<div class="panel diagram-panel">
-  <div class="hint">
-    <strong>从资本目标到价值实现</strong>
-    <span>点击任一环节，探索资产管理逻辑</span>
+<section class="section">
+  <div class="section-head"><div><h2>01｜资产管理生命周期</h2><div class="sub">点击阶段，展开该阶段的目标、管理任务、关键决策与绩效指标。</div></div></div>
+  <div class="panel">
+    <div class="goal"><strong>资本回报目标</strong><span>投资回报 · 风险控制 · 资产价值增长 · 退出收益</span></div>
+    <div class="flowline">↓</div>
+    <div class="goal"><strong>资产战略与投资决策</strong><span>投资组合策略 · 投资标准 · 财务模型 · 资本配置</span></div>
+    <div class="flowline">↓</div>
+    <div class="phase-grid" role="tablist" aria-label="资产生命周期阶段">
+      <button class="phase acq active" data-stage="acquire" role="tab" aria-selected="true"><span class="num">STAGE 01</span><h3>收购</h3><p>筛选标的、尽职调查、估值、交易与交割</p></button>
+      <button class="phase hold" data-stage="hold" role="tab" aria-selected="false"><span class="num">STAGE 02</span><h3>持有与价值提升</h3><p>租赁经营、运营管理、资本改善与持续优化</p></button>
+      <button class="phase exit" data-stage="dispose" role="tab" aria-selected="false"><span class="num">STAGE 03</span><h3>处置与退出</h3><p>退出策略、市场营销、交易执行与结果复盘</p></button>
+    </div>
+    <div class="flowline">↓</div>
+    <div class="goal"><strong>绩效监测与反馈优化</strong><span>财务表现 · NOI · 资产估值 · 运营绩效 · 风险与韧性</span></div>
+    <div class="sub" style="text-align:center;margin-top:10px">绩效反馈进入下一轮资产战略与经营计划；退出结果为后续投资决策提供依据。</div>
   </div>
-
-  <svg viewBox="0 0 620 520" role="img"
-       aria-label="从资本回报到价值创造的交互流程图">
-    <defs>
-      <marker id="arrow" markerWidth="9" markerHeight="9"
-              refX="6" refY="3" orient="auto">
-        <path d="M0,0 L6,3 L0,6 Z" fill="#9bbfce"/>
-      </marker>
-    </defs>
-
-    <path class="path" marker-end="url(#arrow)"
-          d="M310 93 C400 93 464 126 488 180"/>
-    <path class="path" marker-end="url(#arrow)"
-          d="M492 218 C512 282 475 344 425 375"/>
-    <path class="path" marker-end="url(#arrow)"
-          d="M390 407 C330 447 258 448 218 413"/>
-    <path class="path" marker-end="url(#arrow)"
-          d="M177 386 C110 348 91 289 112 225"/>
-    <path class="path" marker-end="url(#arrow)"
-          d="M128 187 C157 125 218 92 280 92"/>
-
-    <circle class="core" cx="310" cy="253" r="83"/>
-    <text class="ct" x="310" y="242">价值创造</text>
-    <text class="ct" x="310" y="266">持续验证</text>
-    <text class="cs" x="310" y="290">经营表现 · 资产韧性 · 资本回报</text>
-
-    <g class="node active" data-i="0" tabindex="0" role="button">
-      <rect x="215" y="25" width="190" height="70" rx="15"/>
-      <text class="n" x="232" y="47">01</text>
-      <text class="label" x="310" y="57" text-anchor="middle">资本回报</text>
-      <text class="sub" x="310" y="77" text-anchor="middle">明确投资成果与约束</text>
-    </g>
-
-    <g class="node" data-i="1" tabindex="0" role="button">
-      <rect x="395" y="115" width="195" height="70" rx="15"/>
-      <text class="n" x="412" y="137">02</text>
-      <text class="label" x="492" y="145" text-anchor="middle">资产战略</text>
-      <text class="sub" x="492" y="165" text-anchor="middle">选择价值创造路径</text>
-    </g>
-
-    <g class="node" data-i="2" tabindex="0" role="button">
-      <rect x="395" y="335" width="195" height="70" rx="15"/>
-      <text class="n" x="412" y="357">03</text>
-      <text class="label" x="492" y="365" text-anchor="middle">经营决策</text>
-      <text class="sub" x="492" y="385" text-anchor="middle">预算、计划与资源配置</text>
-    </g>
-
-    <g class="node" data-i="3" tabindex="0" role="button">
-      <rect x="215" y="415" width="190" height="70" rx="15"/>
-      <text class="n" x="232" y="437">04</text>
-      <text class="label" x="310" y="447" text-anchor="middle">运营行动</text>
-      <text class="sub" x="310" y="467" text-anchor="middle">团队协同与现场执行</text>
-    </g>
-
-    <g class="node" data-i="4" tabindex="0" role="button">
-      <rect x="30" y="335" width="195" height="70" rx="15"/>
-      <text class="n" x="47" y="357">05</text>
-      <text class="label" x="127" y="365" text-anchor="middle">绩效评估</text>
-      <text class="sub" x="127" y="385" text-anchor="middle">用数据判断结果与偏差</text>
-    </g>
-
-    <g class="node" data-i="5" tabindex="0" role="button">
-      <rect x="30" y="115" width="195" height="70" rx="15"/>
-      <text class="n" x="47" y="137">06</text>
-      <text class="label" x="127" y="145" text-anchor="middle">复盘与优化</text>
-      <text class="sub" x="127" y="165" text-anchor="middle">纠偏并更新决策</text>
-    </g>
-  </svg>
-</div>
-
-<aside class="panel detail" aria-live="polite">
-  <div class="step">
-    <span class="num" id="num">01</span>
-    <span>价值创造的关键逻辑</span>
-  </div>
-
-  <h2 id="title">资本回报</h2>
-  <p class="lead" id="lead">
-    从投资者视角定义资产成功的标准：最终要实现什么回报、承担哪些风险，以及在什么周期内实现。
-  </p>
-
-  <div class="section">
-    <h3>管理重点</h3>
-    <p id="focus">
-      将资本回报要求转化为资产经营的明确方向，兼顾收益、现金流、风险、持有周期与资本投入。
-    </p>
-    <div class="tags" id="tags">
-      <span class="tag">NOI</span>
-      <span class="tag">现金流</span>
-      <span class="tag">投资回报</span>
+  <div class="detail-grid" aria-live="polite">
+    <div class="panel">
+      <div class="detail-title"><span class="dot"></span><h3 id="stageTitle">收购｜Acquisition</h3></div>
+      <p class="goaltext" id="stageGoal"></p>
+      <h4>核心管理任务</h4><ol class="tasks" id="stageTasks"></ol>
+    </div>
+    <div class="panel">
+      <h4 style="margin-top:0">关键决策节点</h4><ul class="clean" id="stageDecisions"></ul>
+      <h4>建议监测的绩效指标</h4><div class="metrics" id="stageMetrics"></div>
     </div>
   </div>
-
-  <div class="section">
-    <h3>需要回答的核心问题</h3>
-    <p id="question">
-      资产的回报目标是什么？当前经营表现与目标之间存在多大差距？
-    </p>
-  </div>
-
-  <div class="tip">
-    <b>实践提示</b>
-    <p id="tip">
-      财务目标不是报表上的数字；需要进一步识别哪些经营变量真正影响这些结果。
-    </p>
-  </div>
-
-  <div class="actions">
-    <button id="prev">← 上一环节</button>
-    <button class="primary" id="next">下一环节 →</button>
-  </div>
-</aside>
 </section>
 
-<footer>
-  交互说明：本图用于解释商业地产资产管理的基本逻辑。实际应用时，应根据资产类型、投资策略、市场条件与业主要求确定具体指标和管理动作。
-</footer>
-</main>
+<section class="section">
+  <div class="section-head"><div><h2>02｜贯穿全生命周期的管理职能</h2><div class="sub">资产管理确定方向与目标；租赁管理推动收入实现；物业管理保障运营交付与成本效率。</div></div></div>
+  <div class="role-grid">
+    <button class="role active" data-role="asset"><h3>资产管理 Asset Management</h3><p>整体盈利能力 · 投资策略 · 资产绩效</p></button>
+    <button class="role" data-role="leasing"><h3>租赁管理 Leasing</h3><p>租金收入 · 空间去化 · 租户留存</p></button>
+    <button class="role" data-role="property"><h3>物业管理 Property Management</h3><p>运营费用 · 设施维护 · 服务交付</p></button>
+  </div>
+  <div class="role-detail" id="roleDetail" aria-live="polite"></div>
+</section>
 
+<section class="section">
+  <div class="section-head"><div><h2>03｜资产价值创造闭环</h2><div class="sub">将战略目标转化为行动，再通过数据验证结果并持续调整。</div></div></div>
+  <div class="loop">
+    <div class="loop-item">资本回报目标</div><div class="loop-item">资产战略</div><div class="loop-item">经营计划与预算</div><div class="loop-item">运营执行</div><div class="loop-item">绩效监测与反馈</div>
+  </div>
+  <div class="sub" style="margin-top:10px">管理重点：目标明确、责任到位、数据可追踪、偏差可解释、改进可验证。</div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>04｜绩效指标参考</h2><div class="sub">指标应结合资产类型、投资策略、持有周期与当地市场进行设定，不宜机械套用统一阈值。</div></div></div>
+  <div class="kpi-grid">
+    <div class="kpi"><strong>财务表现</strong><span>NOI、现金流、预算偏差、运营费用</span></div>
+    <div class="kpi"><strong>租赁表现</strong><span>出租率、租金水平、续租率、租约到期分布</span></div>
+    <div class="kpi"><strong>资本投入</strong><span>资本支出、改造成效、增量收益与回收期</span></div>
+    <div class="kpi"><strong>资产价值与风险</strong><span>估值、资本化率、重大风险、设备与建筑韧性</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>05｜关联 BOMA 资产管理知识体系</h2><div class="sub">点击知识模块，可查看建议关联的章节及其在生命周期中的应用位置。</div></div></div>
+  <div class="knowledge" id="knowledgeGrid">
+    <button data-knowledge="strategy"><b>01–05</b>资产管理与投资策略</button>
+    <button data-knowledge="valuation"><b>06–08</b>估值、财务基准与融资</button>
+    <button data-knowledge="acquisition"><b>09</b>并购与收购决策</button>
+    <button data-knowledge="disposition"><b>10、14</b>资产处置与特殊退出策略</button>
+    <button data-knowledge="development"><b>11</b>物业发展</button>
+    <button data-knowledge="team"><b>12</b>管理团队</button>
+    <button data-knowledge="value"><b>13</b>增加价值</button>
+    <button data-knowledge="summary"><b>15–16</b>综合汇总与结论</button>
+  </div>
+  <div class="role-detail" id="knowledgeDetail" aria-live="polite"><h3>选择一个知识模块</h3><p>这里将显示相应章节的应用场景与建议关联位置。</p></div>
+</section>
+
+<div class="footer">概念模型依据用户提供的 BOMA 资产管理流程、职能关系、课程目录与生命周期图整理。该交互模型为知识展示与培训用途，不替代具体投资、法律、税务或估值专业意见。</div>
+</div>
 <script>
-const stages = [
-  {
-    title: "资本回报",
-    lead: "从投资者视角定义资产成功的标准：最终要实现什么回报、承担哪些风险，以及在什么周期内实现。",
-    focus: "将资本回报要求转化为资产经营的明确方向，兼顾收益、现金流、风险、持有周期与资本投入。",
-    tags: ["NOI", "现金流", "投资回报", "资产估值"],
-    question: "资产的回报目标是什么？当前经营表现与目标之间存在多大差距？",
-    tip: "财务目标不是报表上的数字；需要进一步识别哪些经营变量真正影响这些结果。"
-  },
-  {
-    title: "资产战略",
-    lead: "结合资产定位、市场趋势和持有策略，选择适合该资产的价值创造方式，而不是简单复制其他项目的做法。",
-    focus: "明确租赁定位、目标客群、改造方向、运营能力建设与风险策略，并对行动优先级作出取舍。",
-    tags: ["市场定位", "租赁策略", "资产改造", "风险管理"],
-    question: "价值增长主要来自租金与出租率改善、运营效率、资本性改造，还是风险降低？",
-    tip: "战略需要明确取舍：资源有限时，先做哪些事、暂缓哪些事，以及为什么。"
-  },
-  {
-    title: "经营决策",
-    lead: "把资产战略转化为年度经营计划、预算和资源配置，让目标能够被执行、跟踪和问责。",
-    focus: "联动收入计划、运营费用、租赁行动、资本开支、租户体验和工程管理，建立可执行的目标与责任体系。",
-    tags: ["年度预算", "经营计划", "CAPEX", "责任分工"],
-    question: "每项经营目标由谁负责？需要哪些资源？预期何时产生可验证的结果？",
-    tip: "预算不应只是历史成本的延续，而应说明每笔投入如何支持资产目标。"
-  },
-  {
-    title: "运营行动",
-    lead: "将经营决策落实到日常工作，通过跨团队协作，让运营活动持续支撑资产经营表现。",
-    focus: "对齐资产管理、租赁、物业运营、财务和供应商的工作目标、服务标准、行动节奏与协同机制。",
-    tags: ["租户体验", "服务质量", "能源效率", "供应商绩效"],
-    question: "一线工作是否真正支持经营目标？当部门指标冲突时，团队依据什么原则协同？",
-    tip: "不能只看各部门是否完成任务，还要检验这些任务是否带来预期经营效果。"
-  },
-  {
-    title: "绩效评估",
-    lead: "通过可靠的数据判断经营计划是否有效，及时识别偏差、趋势和潜在风险。",
-    focus: "统一指标定义与数据口径，定期比较目标、预算、实际表现和市场基准，分析差异背后的原因。",
-    tags: ["实际与预算", "NOI趋势", "出租率", "租户留存"],
-    question: "偏差来自市场变化、战略判断、执行质量还是数据问题？对回报的影响有多大？",
-    tip: "指标的价值不在于展示结果，而在于帮助管理者解释结果并决定下一步行动。"
-  },
-  {
-    title: "复盘与优化",
-    lead: "将绩效信息转化为管理决策：纠正偏差、调整资源、验证措施效果，必要时重新审视资产战略。",
-    focus: "识别问题根因，明确纠偏动作、负责人、完成时限和验证指标，并把经验带入下一轮经营计划。",
-    tags: ["根因分析", "纠偏行动", "资源调整", "持续改进"],
-    question: "哪些措施应继续、停止或调整？怎样验证调整后确实改善了资产表现？",
-    tip: "闭环不是完成一次复盘，而是让复盘结果真正改变下一轮决策和行动。"
-  }
-];
-
-let current = 0;
-const $ = id => document.getElementById(id);
-
-function render(index) {
-  current = (index + stages.length) % stages.length;
-  const stage = stages[current];
-
-  $("num").textContent = String(current + 1).padStart(2, "0");
-  $("title").textContent = stage.title;
-  $("lead").textContent = stage.lead;
-  $("focus").textContent = stage.focus;
-  $("question").textContent = stage.question;
-  $("tip").textContent = stage.tip;
-
-  $("tags").replaceChildren(
-    ...stage.tags.map(text => {
-      const span = document.createElement("span");
-      span.className = "tag";
-      span.textContent = text;
-      return span;
-    })
-  );
-
-  document.querySelectorAll(".node").forEach(node => {
-    const active = Number(node.dataset.i) === current;
-    node.classList.toggle("active", active);
-    node.setAttribute("aria-pressed", active ? "true" : "false");
-  });
+const data={
+ acquire:{title:"收购｜Acquisition",goal:"以投资标准筛选资产，验证交易价格、潜在收益与风险是否符合投资策略。",tasks:["制定业务计划，明确投资资金、产品类型、区域与投资/持有模式。","向经纪渠道说明投资标准，筛选并初步分析候选资产。","开展物业实地检查，获取租金台账、物业收入及其他关键资料。","开展财务分析与估值，完成尽职调查并基于调查结果谈判价格。","完成买卖协议、确定物业管理与租赁安排，并推进交割接管。"],decisions:["资产是否符合投资标准？","尽调结果是否支持目标收购价格？","交易是否符合投资组合策略与风险要求？"],metrics:["收购价格与估值依据","预期收益率与投资回报","租约及收入质量","资本支出与尽调风险"]},
+ hold:{title:"持有与价值提升｜Hold Period & Value Enhancement",goal:"将投资策略转化为可执行的资产经营计划，通过收入管理、费用控制、资本投入与风险管理提升资产表现。",tasks:["制定物业资产管理计划，明确目标、预算、行动、责任人和时间表。","制定租赁策略，管理出租率、租金、租约到期、续租与租户留存。","协同物业管理团队控制运营费用，维护设施设备、建筑品质与服务水平。","识别资本改善、能源管理、改造及其他可行的增值机会。","定期监测财务表现、租赁情况、运营绩效与资产估值。","根据业绩偏差、市场变化和风险状况调整经营计划。"],decisions:["经营表现是否符合资产战略与预算？","增值投入能否产生合理的增量收益？","继续持有、追加投资还是启动退出准备？"],metrics:["NOI及其增长","出租率与租金水平","运营费用与预算偏差","资本支出与改造成效","资产估值与风险状况"]},
+ dispose:{title:"处置与退出｜Disposition",goal:"结合市场条件、资产表现和投资目标，制定退出方案，管理交易过程并实现投资价值。",tasks:["评估市场条件、资产表现与退出时机。","制定退出策略、目标交易条件与执行计划。","准备营销材料、资产财务资料及潜在买方信息。","开展资产推介、报价评估与交易谈判。","协调尽调、交易文件、交割安排与风险事项。","复盘实际退出结果与原始投资目标的差异，为下一轮投资提供经验。"],decisions:["当前是否为合适的退出窗口？","报价是否满足收益与风险要求？","交易条件与执行风险是否可接受？"],metrics:["预计与实际处置价格","持有期累计现金流与实际回报","交易成本与交割风险","实际结果与投资计划偏差"]}
+};
+const roles={
+ asset:{title:"资产管理：确定经营方向与价值目标",items:["对资产整体经营表现和盈利能力负责。","制定资产战略、经营计划、预算与绩效目标。","将投资目标转化为租赁和物业运营可执行的任务。","根据实际业绩、市场变化和风险调整资源配置。"]},
+ leasing:{title:"租赁管理：实现收入与空间价值",items:["推动租金收入实现、空间去化和租户留存。","管理招商定位、租金策略、租约、续租及市场研究。","与物业团队协同维护租户体验和服务连续性。","将租赁市场变化、租户需求和收入风险反馈给资产管理团队。"]},
+ property:{title:"物业管理：控制运营成本并保障服务品质",items:["组织楼宇日常运营，维护设施设备与建筑品质。","管理运营费用、能源、安全、维护、服务及供应商绩效。","依据资产经营目标制定运营计划与执行标准。","以成本、质量、风险和租户体验数据反馈运营表现。"]}
+};
+const knowledge={
+ strategy:["资产管理与投资策略","第1–5章：资产管理概念与定义、房地产投资原理、整体投资组合策略。","建议关联：模型总览、资本回报目标、资产战略与投资决策。"],
+ valuation:["估值、财务基准与融资","第6–8章：估价、财务基准、资本化率与融资。","建议关联：收购前分析、交易定价、持有期财务监测与退出估值。"],
+ acquisition:["并购与收购决策","第9章：并购。","建议关联：收购标的筛选、尽职调查、价格谈判与交割。"],
+ disposition:["资产处置与特殊退出策略","第10章：财产处置；第14章：止赎策略。","建议关联：退出策略、处置执行与特殊情形风险。"],
+ development:["物业发展","第11章：物业发展。","建议关联：持有期的改造、开发机会评估与资本投入决策。"],
+ team:["管理团队","第12章：管理团队。","建议关联：贯穿全生命周期的组织能力、职责分工与协作机制。"],
+ value:["增加价值","第13章：增加价值。","建议关联：持有与价值提升阶段的租赁优化、运营改善与资本项目。"],
+ summary:["综合汇总与结论","第15–16章：整体汇总、结论。","建议关联：跨职能决策、绩效复盘与下一轮投资策略。"]
+};
+function renderStage(key){
+ const d=data[key];document.getElementById("stageTitle").textContent=d.title;document.getElementById("stageGoal").textContent=d.goal;
+ const tasks=document.getElementById("stageTasks");tasks.innerHTML="";d.tasks.forEach(t=>{const li=document.createElement("li");li.textContent=t;tasks.appendChild(li)});
+ const decisions=document.getElementById("stageDecisions");decisions.innerHTML="";d.decisions.forEach(t=>{const li=document.createElement("li");li.innerHTML='<span class="check">◇</span><span></span>';li.lastChild.textContent=t;decisions.appendChild(li)});
+ const metrics=document.getElementById("stageMetrics");metrics.innerHTML="";d.metrics.forEach(t=>{const s=document.createElement("span");s.className="metric";s.textContent=t;metrics.appendChild(s)});
+ document.querySelectorAll(".phase").forEach(b=>{const on=b.dataset.stage===key;b.classList.toggle("active",on);b.setAttribute("aria-selected",on?"true":"false")});
 }
-
-document.querySelectorAll(".node").forEach(node => {
-  node.addEventListener("click", () => {
-    render(Number(node.dataset.i));
-  });
-
-  node.addEventListener("keydown", event => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      render(Number(node.dataset.i));
-    }
-  });
-});
-
-$("prev").addEventListener("click", () => render(current - 1));
-$("next").addEventListener("click", () => render(current + 1));
-
-document.addEventListener("keydown", event => {
-  if (event.key === "ArrowLeft") render(current - 1);
-  if (event.key === "ArrowRight") render(current + 1);
-});
-
-render(0);
+function renderRole(key){const d=roles[key],el=document.getElementById("roleDetail");el.innerHTML="";const h=document.createElement("h3");h.textContent=d.title;el.appendChild(h);d.items.forEach(t=>{const p=document.createElement("p");p.textContent="• "+t;el.appendChild(p)});document.querySelectorAll(".role").forEach(b=>b.classList.toggle("active",b.dataset.role===key))}
+document.querySelectorAll(".phase").forEach(b=>b.addEventListener("click",()=>renderStage(b.dataset.stage)));
+document.querySelectorAll(".role").forEach(b=>b.addEventListener("click",()=>renderRole(b.dataset.role)));
+document.querySelectorAll("[data-knowledge]").forEach(b=>b.addEventListener("click",()=>{const d=knowledge[b.dataset.knowledge],el=document.getElementById("knowledgeDetail");el.innerHTML="";d.forEach((t,i)=>{const p=document.createElement(i===0?"h3":"p");p.textContent=t;el.appendChild(p)})}));
+renderStage("acquire");renderRole("asset");
 </script>
 </body>
 </html>
-# asset-Management
